@@ -22,7 +22,7 @@ function pageData(currentPage, totalPages) {
   var rangeSize = maxPages - [hasRightSeparator, hasLeftSeparator].filter(function (h) {
     return h;
   }).length;
-  var maxPage = Math.max(minPage + 1, Math.min(totalPages - 1, minPage + (rangeSize - 1)));
+  var maxPage = Math.max(minPage, Math.min(totalPages - 1, minPage + (rangeSize - 1)));
 
   var firstPage = {
     page: 1,

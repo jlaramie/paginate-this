@@ -30,6 +30,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var defaultPaginator = exports.defaultPaginator = (0, _immutable.Map)({
+  preloaded: false,
   initialized: false,
   page: 1,
   pageSize: 15,
@@ -50,6 +51,7 @@ var defaultPaginator = exports.defaultPaginator = (0, _immutable.Map)({
 function initialize(state, action) {
   return state.merge(_extends({
     initialized: true,
+    preloaded: !!action.preloaded,
     stale: !action.preloaded
   }, action.preloaded || {}));
 }
@@ -64,7 +66,7 @@ function reset(initialSettings) {
 }
 
 function expire(state) {
-  return state.merge({ stale: true, loadError: null });
+  return state.merge({ stale: true, preloaded: false, loadError: null });
 }
 
 function next(state) {

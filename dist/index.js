@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.pageData = exports.currentQuery = exports.getItem = exports.isRemoving = exports.isUpdating = exports.configurePageParams = exports.debug = exports.middleware = exports.decorators = exports.createPaginator = exports.initializeStore = exports.paginate = exports.DataRow = exports.PageSizeDropdown = exports.PageNumber = exports.Next = exports.Prev = exports.ColumnHeader = exports.Paginator = exports.Flipper = exports.DataTable = exports.expireAll = exports.actionFactory = exports.composables = undefined;
+exports.pageData = exports.getPaginator = exports.currentQuery = exports.getItem = exports.isRemoving = exports.isUpdating = exports.configurePageParams = exports.debug = exports.middleware = exports.decorators = exports.createPaginator = exports.initializeStore = exports.paginate = exports.DataRow = exports.PageSizeDropdown = exports.PageNumber = exports.Next = exports.Prev = exports.ColumnHeader = exports.Paginator = exports.Flipper = exports.DataTable = exports.expireAll = exports.actionFactory = exports.composables = undefined;
 
 var _actions = require('./actions');
 
@@ -80,6 +80,12 @@ Object.defineProperty(exports, 'currentQuery', {
   enumerable: true,
   get: function get() {
     return _stateManagement.currentQuery;
+  }
+});
+Object.defineProperty(exports, 'getPaginator', {
+  enumerable: true,
+  get: function get() {
+    return _stateManagement.getPaginator;
   }
 });
 

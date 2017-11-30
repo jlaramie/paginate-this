@@ -10,10 +10,10 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
 exports.stateInfo = stateInfo;
 exports.listInfo = listInfo;
+exports.listConfig = listConfig;
 exports.registerPaginator = registerPaginator;
 exports.getPaginator = getPaginator;
 exports.getItem = getItem;
-exports.listConfig = listConfig;
 exports.preloadedPaginator = preloadedPaginator;
 exports.isUpdating = isUpdating;
 exports.isRemoving = isRemoving;
@@ -59,11 +59,21 @@ function listInfo(listId) {
   return stateInfo()[listId] || {};
 }
 
+function listConfig(listId) {
+  var map = stateMap[listId];
+
+  return _extends({}, map, {
+    params: _extends({}, defaultPageParams(), map.params)
+  });
+}
+
 function registerPaginator(_ref) {
   var listId = _ref.listId,
       fetch = _ref.fetch,
       _ref$cache = _ref.cache,
       cache = _ref$cache === undefined ? false : _ref$cache,
+      _ref$sticky = _ref.sticky,
+      sticky = _ref$sticky === undefined ? false : _ref$sticky,
       _ref$initialSettings = _ref.initialSettings,
       initialSettings = _ref$initialSettings === undefined ? {} : _ref$initialSettings,
       _ref$pageParams = _ref.pageParams,
@@ -75,11 +85,12 @@ function registerPaginator(_ref) {
     locator: locator,
     fetch: (0, _debounce2.default)(fetch),
     cache: cache,
+    sticky: sticky,
     initialSettings: initialSettings,
-    params: _extends({}, defaultPageParams(), pageParams)
+    params: pageParams
   };
 
-  return stateMap[listId];
+  return listConfig(listId);
 }
 
 function getPaginator(listId, state) {
@@ -94,10 +105,6 @@ function getItem(state, listId, itemId) {
   return getPaginator(listId, state).get('results').find(function (r) {
     return r.get((0, _pageInfoTranslator.recordProps)().identifier) === itemId;
   }, undefined, (0, _immutable.Map)());
-}
-
-function listConfig(listId) {
-  return stateMap[listId];
 }
 
 function preloadedPaginator(state, listId) {

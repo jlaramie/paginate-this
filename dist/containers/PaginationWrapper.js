@@ -62,27 +62,38 @@ var PaginationWrapper = exports.PaginationWrapper = function (_Component) {
     value: function componentDidMount() {
       var _props = this.props,
           paginator = _props.paginator,
-          pageActions = _props.pageActions,
-          listId = _props.listId;
+          pageActions = _props.pageActions;
 
 
       if (!paginator.get('initialized')) {
         pageActions.initialize();
-      } else {
-        var _listInfo = (0, _stateManagement.listInfo)(listId),
-            cache = _listInfo.cache;
-
-        if (!cache) {
-          pageActions.reset();
-        } else {
-          this.reloadIfStale(this.props);
-        }
+      } else if (!paginator.get('preloaded')) {
+        this.reloadIfStale(this.props);
       }
     }
   }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
       this.reloadIfStale(nextProps);
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      var _props2 = this.props,
+          pageActions = _props2.pageActions,
+          listId = _props2.listId;
+
+      var _listInfo = (0, _stateManagement.listInfo)(listId),
+          cache = _listInfo.cache,
+          sticky = _listInfo.sticky;
+
+      if (!cache) {
+        if (sticky) {
+          pageActions.expire();
+        } else {
+          pageActions.reset();
+        }
+      }
     }
   }, {
     key: 'reloadIfStale',

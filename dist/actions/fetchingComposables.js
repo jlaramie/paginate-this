@@ -21,7 +21,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var fetcher = function fetcher(id) {
+var fetcher = function fetcher(id, config) {
   return function (dispatch, getState) {
     var _listConfig = (0, _stateManagement.listConfig)(id),
         fetch = _listConfig.fetch,
@@ -32,7 +32,7 @@ var fetcher = function fetcher(id) {
 
     dispatch({ type: (0, actionTypes.default)(actionTypes.FETCH_RECORDS, id), requestId: requestId });
 
-    var promise = dispatch(fetch((0, _pageInfoTranslator.translate)(pageInfo)));
+    var promise = dispatch(fetch((0, _pageInfoTranslator.translate)(pageInfo), config));
 
     return promise.then(function (resp) {
       return dispatch({
@@ -71,7 +71,7 @@ function fetchingComposables(config) {
       };
     },
     reload: function reload() {
-      return fetcher(id);
+      return fetcher(id, config);
     },
     next: function next() {
       return {
